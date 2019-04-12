@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Welcome {{results_dict["first_name"]}}</h1>
+    <hr>
+
+    <table>
+			<thead>
+				<tr>
+					<th>User Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>First Name: </td>
+					<td>{{results_dict["first_name"]}}</td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td>{{results_dict["last_name"]}}</td>
+				</tr>
+				<tr>
+					<td>Age:</td>
+					<td>{{results_dict["age"]}}</td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td>{{results_dict["email"]}}</td>
+				</tr>
+				<tr>
+					<td>Credit Card:</td>
+					<td>{{results_dict["cc"]}}</td>
+				</tr>
+			</tbody>
+	</table>
+
+	<hr>
+
+	<h3>Trip History</h3>
+	<table>
+			<thead>
+				<tr>
+					<th>Trip ID</th>
+					<th>Request Time</th>
+					<th>Begin Time</th>
+					<th>End Time</th>
+					<th>Begin Latitude</th>
+					<th>Begin Longitude</th>
+					<th>End Latitude</th>
+					<th>End Longitude</th>
+					<th>Distance(miles)</th>
+					<th>Fare</th>
+					<th>Duration</th>
+					<th>Driver First Name</th>
+					<th>Driver Last Name</th>
+					<th>Driver License Number</th>
+					<th>Trip Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for trip in trip_history %}
+				<tr>
+					{% for attr in trip %}
+						<td>{{attr}}</td>
+					{% endfor %}
+
+					{% if trip[-1] == 'Pending' %}
+						<form action="/cancel_trip" method="POST">
+							<td>
+								<button type="submit" name="trip_id" value="{{trip[0]}}">Cancel Trip</button>
+							</td>
+						</form>
+					{% endif %}
+
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+
+	<hr>
+
+	<h3>Request a Ride</h3>
+	<form method="POST" action="/find_drivers">
+		<div>
+			<label>Please enter your pick-up latitude:</label>
+			<input type="text" name="pickup_lat" placeholder="40.807798">
+			<br>
+			<label>Please enter your pick-up longitude:</label>
+			<input type="text" name="pickup_long" placeholder="-73.962165">
+			<br>
+			<label>Please enter your drop-off latitude:</label>
+			<input type="text" name="dropoff_lat" placeholder="40.807798">
+			<br>
+			<label>Please enter your drop-off longitude:</label>
+			<input type="text" name="dropoff_long" placeholder="-73.962165">
+			<br>
+			<input type="submit" value="Find Rides">
+		</div>
+    </form>
+
+	<br>
+	<hr>
+
+	<h3>Bike Rental History</h3>
+	<table>
+			<thead>
+				<tr>
+					<th>Rental ID</th>
+					<th>Bike ID</th>
+					<th>Battery(%)</th>
+					<th>Location(Latitude)</th>
+					<th>Location(Longitude)</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for rental in bike_history %}
+				<tr>
+					{% for attr in rental %}
+						<td>{{attr}}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+
+	<hr>
+
+	<h3>Find a Bike</h3>
+	<form method="POST" action="/bike_rental">
+		<div>
+			<label>Please enter your current latitude:</label>
+			<input type="text" name="latitude" placeholder="40.807798">
+			<br>
+			<label>Please enter your current longitude:</label>
+			<input type="text" name="longitude" placeholder="-73.962165">
+			<br>
+			<input type="submit" value="Find Bikes">
+		</div>
+    </form>
+
+	<br>
+	<hr>
+	<h3>Promotion: Visit {{promotion}}!</h3>
+	<br>
+
+	<form method="POST" action="/logout">
+		<input type="submit" value="Logout">
+	</form>
+
+</body>
+</html>

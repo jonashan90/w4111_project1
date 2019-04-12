@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find a Driver</title>
+</head>
+<body>
+
+	<h2>Current Time: {{trip_info["current_time"]}}</h2>
+	<h2>Pick-up Location: {{trip_info["pickup_lat"], trip_info["pickup_long"]}}</h2>
+	<h2>Drop-off Location: {{trip_info["dropoff_lat"], trip_info["dropoff_long"]}}</h2>
+	<h2>Distance: {{trip_info["distance"]}} miles</h2>
+	<h2>Duration: {{trip_info["duration"]}}</h2>
+	<h2>Fare: ${{trip_info["fare"]}}</h2>
+	<hr>
+
+    <h3>Available Drivers</h3>
+    <form action="/driver_selection" method="POST">
+	<table>
+			<thead>
+				<tr>
+					<th>Driver First Name</th>
+					<th>Driver Last Name</th>
+					<th>Driver License #</th>
+					<th>Car Plate #</th>
+					<th>Car Make/Model</th>
+                    <th>Car Color</th>
+                    <th>Car Year</th>
+                    <th>Car State</th>
+					<th>Driver Latitude</th>
+					<th>Driver Longitude</th>
+					<th>Pick-up Time</th>
+					<th>Drop-off Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for driver in drivers %}
+				<tr>
+					{% for attr in driver %}
+						<td>{{attr}}</td>
+					{% endfor %}
+                    <td> <button type="submit" name="driver_select"
+								 value="{{
+								 driver[2].encode('utf-8'), trip_info['pickup_lat'], trip_info['pickup_long'],
+								 trip_info['dropoff_lat'], trip_info['dropoff_long'], trip_info['distance'],
+								 trip_info['fare'], trip_info['current_time'],
+								 driver[-2], driver[-1], trip_info['duration'],
+								  }}">
+						Request {{ driver[0] }}</button> </td>
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+    </form>
+
+    <hr>
+    <br>
+
+    <form method="POST" action="/user_profile">
+		<input type="submit" value="Return to Main Page">
+	</form>
+
+    <br>
+
+    <form method="POST" action="/logout">
+		<input type="submit" value="Logout">
+	</form>
+
+</body>
+</html>

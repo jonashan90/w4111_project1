@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Welcome {{results_dict["first_name"]}}</h1>
+    <hr>
+
+    <table>
+			<thead>
+				<tr>
+					<th>Driver Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>First Name:</td>
+					<td>{{results_dict["first_name"]}}</td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td>{{results_dict["last_name"]}}</td>
+				</tr>
+				<tr>
+					<td>License Number:</td>
+					<td>{{results_dict["license_num"]}}</td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td>{{results_dict["email"]}}</td>
+				</tr>
+				<tr>
+					<td>Current Location:</td>
+					<td>{{results_dict["lat"], results_dict["long"]}}</td>
+				</tr>
+			</tbody>
+	</table>
+
+	<hr>
+
+	<table>
+			<thead>
+				<tr>
+					<th>Vehicle Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Vin #:</td>
+					<td>{{car_info["vin_num"]}}</td>
+				</tr>
+				<tr>
+					<td>Plate #:</td>
+					<td>{{car_info["plate_num"]}}</td>
+				</tr>
+				<tr>
+					<td>Make/Model:</td>
+					<td>{{car_info["make_model"]}}</td>
+				</tr>
+				<tr>
+					<td>Color:</td>
+					<td>{{car_info["color"]}}</td>
+				</tr>
+				<tr>
+					<td>Year:</td>
+					<td>{{car_info["year"]}}</td>
+				</tr>
+				<tr>
+					<td>State:</td>
+					<td>{{car_info["state"]}}</td>
+				</tr>
+			</tbody>
+	</table>
+
+	<hr>
+
+	<h3>Trip History</h3>
+	<table>
+			<thead>
+				<tr>
+					<th>Trip ID</th>
+					<th>Request Time</th>
+					<th>Begin Time</th>
+					<th>End Time</th>
+					<th>Begin Latitude</th>
+					<th>Begin Longitude</th>
+					<th>End Latitude</th>
+					<th>End Longitude</th>
+					<th>Distance(miles)</th>
+					<th>Fare</th>
+					<th>Duration</th>
+					<th>Passenger First Name</th>
+					<th>Passenger Last Name</th>
+					<th>Trip Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for trip in trip_history %}
+				<tr>
+					{% for attr in trip %}
+						<td>{{attr}}</td>
+					{% endfor %}
+
+					{% if trip[-1] == 'Pending' %}
+						<form action="/accept_trip" method="POST">
+							<td>
+								<button type="submit" name="trip_id" value="{{trip[0]}}">Accept Trip</button>
+							</td>
+						</form>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+
+
+	<form method="POST" action="/logout">
+		<input type="submit" value="Logout">
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+
+    <h1>Welcome to AJ Car Service & Bike Rentals</h1>
+    <p>Please select User or Driver:</p>
+
+    <form method="POST" action="/user_profile">
+      <input type="radio" name="user_type" value="user"> User<br>
+      <input type="radio" name="user_type" value="driver"> Driver<br>
+
+    <br>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" name="username" placeholder="johndoe@email.com">
+        <input type="submit" value="Login">
+    </div>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Current Location: {{user_position[0], user_position[1]}}</h1>
+
+    <hr>
+
+	<h3>Available Bikes</h3>
+    <form action="/bike_rental_confirm" method="POST">
+	<table>
+			<thead>
+				<tr>
+					<th>Bike ID</th>
+					<th>Battery(%)</th>
+					<th>Location(Latitude)</th>
+					<th>Location(Longitude)</th>
+					<th>Distance(miles)</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for bike in bikes %}
+				<tr>
+					{% for attr in bike %}
+						<td>{{attr}}</td>
+					{% endfor %}
+                    <td> <button type="submit" name="bike_selection" value="{{ bike[0] }}">Rent Bike {{ bike[0] }}</button> </td>
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+    </form>
+
+    <hr>
+    <br>
+
+    <form method="POST" action="/user_profile">
+		<input type="submit" value="Return to Main Page">
+	</form>
+
+    <br>
+
+    <form method="POST" action="/logout">
+		<input type="submit" value="Logout">
+	</form>
+
+</body>
+</html>
